@@ -80,7 +80,7 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 			resultat = start.getElement();
 			start = start.getNeste();
 			antall--;
-		} else {// Gjennomg�r den kjedete strukturen
+		} else {// Gjennomgår den kjedete strukturen
 			forgjenger = start;
 			aktuell = start.getNeste();
 			for (int sok = 2; sok <= antall && !funnet; sok++) {
@@ -215,20 +215,14 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 		// TODO
 		MengdeADT<T> differensM = new KjedetMengde<T>();
 		T element = null;
-		
+		// Legger til alle fra this og fjerner hvis de finnes i m2.
+		differensM.leggTilAlle(this);
 		Iterator<T> teller = m2.iterator();
-		while (teller.hasNext()) {
-			element = teller.next();
-			if (!this.inneholder(element)) {
-				differensM.leggTil(element);
-			}
-		}
-		teller = this.iterator();
 		
 		while (teller.hasNext()) {
 			element = teller.next();
-			if (!m2.inneholder(element)) {
-				differensM.leggTil(element);
+			if (this.inneholder(element)) {
+				differensM.fjern(element);
 			}
 		}
 		return differensM;

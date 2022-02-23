@@ -6,6 +6,7 @@ import java.util.Random;
 
 import no.hvl.dat102.exception.EmptyCollectionException;
 import no.hvl.dat102.mengde.adt.MengdeADT;
+import no.hvl.dat102.mengde.kjedet.KjedetMengde;
 
 public class TabellMengde<T> implements MengdeADT<T> {
 	// ADT-en Mengde implementert som tabell
@@ -126,15 +127,28 @@ public class TabellMengde<T> implements MengdeADT<T> {
 	@Override
 	public boolean equals(Object m2) {
 		//TODO
-		boolean likeMengder = false;
-		if (this.tab == m2) {
-			likeMengder = true;
+		boolean likeMengder = true;
+		MengdeADT<T> ny = (TabellMengde<T>) m2;
+		Iterator<T> teller = ny.iterator();
+
+		if (this == ny) {
+			return true;
+		}
+		
+		if (this.antall != ny.antall()) {
+			likeMengder = false;
+		} else {
+			for (int i=0; i < this.antall; i++) {
+				if (!this.inneholder(teller.next())) {
+					likeMengder = false;
+				}
+				
+			}
 		}
 
 		return likeMengder;
 	}
 
-	
 
 	/*
 	 * Denne versjonen av unionen er lite effektiv
@@ -181,15 +195,32 @@ public class TabellMengde<T> implements MengdeADT<T> {
 		//TODO
 		MengdeADT<T> differensM = new TabellMengde<T>();
 		T element;
+		T this_element;
 		Iterator<T> teller = m2.iterator();
-		differensM.leggTilAlle(this);
+		Iterator<T> this_teller = this.iterator();
+		boolean lik = true;
 		
-		while (teller.hasNext()) {
-			element = teller.next();
-			if (this.inneholder(element)) {				
-				
+		while (this_teller.hasNext()) {
+			this_element = this_teller.next();
+			while(teller.hasNext()) {
+				element = teller.next();
+				if (this_element.equals(element)) {
+					lik = true;
+					break;
+				} else {
+					lik = false;
+				}
+			}
+			// 'Reseter' teller for at den skal starte på første hver gang den øvre while kjører.
+			teller = m2.iterator();
+			
+			// Hvis break ikke har blitt kalt i løpet av while-loopen, er lik false og legger derfor til i listen. Dvs at ingen av element fra m2 var lik som this_element.
+			if (lik == false) {
+				differensM.leggTil(this_element);
 			}
 		}
+		
+	
 	
 		return differensM;
 	}
