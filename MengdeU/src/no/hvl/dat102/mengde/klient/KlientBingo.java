@@ -25,12 +25,16 @@ public class KlientBingo {
 
 		mengde1.leggTil(kule1);
 		mengde1.leggTil(kule2);
+		mengde1.leggTil(kule3);
 		mengde1.leggTil(kule5);
 
 		mengde2.leggTil(kule1);
-		mengde2.leggTil(kule4);
+		mengde2.leggTil(kule5);
+		mengde2.leggTil(kule2);
+
+
 		
-		MengdeADT<Bingokule> differens = new KjedetMengde<>();
+		MengdeADT<Bingokule> differens = new TabellMengde<>();
 		
 		differens = mengde1.differens(mengde2);
 		System.out.println(differens);
