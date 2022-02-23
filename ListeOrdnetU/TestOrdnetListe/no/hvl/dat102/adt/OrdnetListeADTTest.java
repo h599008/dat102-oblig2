@@ -65,6 +65,8 @@ public abstract class OrdnetListeADTTest {
 		assertEquals(e2, liste.fjern(e2));
 		assertEquals(e1, liste.fjern(e1));
 		assertEquals(e0, liste.fjern(e0));
+
+		assertTrue(liste.erTom());
 	}
 
 	/**
@@ -73,8 +75,19 @@ public abstract class OrdnetListeADTTest {
 	 */
 	@Test
 	public final void viseOrdnetIkkeAvtagende() {
-		// ... Fyll ut
-		// ... Legg til elementer og bruk fjernFoerste
+		liste.leggTil(e1);
+		liste.leggTil(e2);
+		liste.leggTil(e5);
+		liste.leggTil(e0);
+		liste.leggTil(e4);
+		liste.leggTil(e3);
+
+		assertEquals(e1, liste.fjernFoerste());
+		assertEquals(e2, liste.fjernFoerste());
+		assertEquals(e5, liste.fjernFoerste());
+		assertEquals(e0, liste.fjernFoerste());
+		assertEquals(e4, liste.fjernFoerste());
+		assertEquals(e3, liste.fjernFoerste());
 	}
 
 	@Test
@@ -85,12 +98,12 @@ public abstract class OrdnetListeADTTest {
 		liste.leggTil(e0);
 		liste.leggTil(e4);
 		liste.leggTil(e3);
-		assertEquals(e5, liste.fjernSiste());
-		assertEquals(e4, liste.fjernSiste());
 		assertEquals(e3, liste.fjernSiste());
+		assertEquals(e4, liste.fjernSiste());
+		assertEquals(e0, liste.fjernSiste());
+		assertEquals(e5, liste.fjernSiste());
 		assertEquals(e2, liste.fjernSiste());
 		assertEquals(e1, liste.fjernSiste());
-		assertEquals(e0, liste.fjernSiste());
 	}
 
 	/**
@@ -98,7 +111,13 @@ public abstract class OrdnetListeADTTest {
 	 */
 	@Test
 	public final void leggTilOgfjernMedDuplikater() {
-		// ... Fyll ut med å legge til passende elementer
+		liste.leggTil(e0);
+		liste.leggTil(e1);
+		liste.leggTil(e4);
+		liste.leggTil(e1);
+		liste.leggTil(e2);
+		liste.leggTil(e3);
+
 
 		assertEquals(e0, liste.fjern(e0));
 		assertEquals(e1, liste.fjern(e1));
@@ -106,7 +125,6 @@ public abstract class OrdnetListeADTTest {
 		assertEquals(e1, liste.fjern(e1));
 		assertEquals(e2, liste.fjern(e2));
 		assertEquals(e3, liste.fjern(e3));
-
 	}
 
 	/**
@@ -126,7 +144,6 @@ public abstract class OrdnetListeADTTest {
 		assertTrue(liste.inneholder(e3));
 		assertTrue(liste.inneholder(e4));
 		assertFalse(liste.inneholder(e5));
-
 	}
 
 	/**
@@ -147,7 +164,23 @@ public abstract class OrdnetListeADTTest {
 	 */
 	@Test
 	public final void leggTilFjernErTom() {
-		// ...Fyll ut. Legg inn elementer og fjern de
+		liste.leggTil(e1);
+		assertFalse(liste.erTom());
+
+		liste.leggTil(e3);
+		assertFalse(liste.erTom());
+
+		liste.leggTil(e2);
+
+		assertFalse(liste.erTom());
+		liste.fjernSiste();
+
+		assertFalse(liste.erTom());
+		liste.fjernFoerste();
+
+		assertFalse(liste.erTom());
+		liste.fjernSiste();
+		assertTrue(liste.erTom());
 	}
 
 	/**

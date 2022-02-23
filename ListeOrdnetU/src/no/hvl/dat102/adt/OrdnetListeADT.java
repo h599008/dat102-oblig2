@@ -10,5 +10,8 @@ public interface OrdnetListeADT<T extends Comparable<T>> extends ListeADT<T> {
 	 */
 	void leggTil(T element);
 
-
+	/**
+	 * Sorterer listen ved å bruke Comparable.
+	 */
+	void sorter();
 }

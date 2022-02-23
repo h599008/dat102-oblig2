@@ -3,11 +3,13 @@ package no.hvl.dat102.tabell;
 import no.hvl.dat102.adt.OrdnetListeADT;
 import no.hvl.dat102.exceptions.EmptyCollectionException;
 
+import java.util.Arrays;
+
 public class TabellOrdnetListe<T extends Comparable<T>> implements OrdnetListeADT<T> {
 
 	private final static int STDK = 100;
 	private final static int IKKE_FUNNET = -1;
-	private int bak;
+	private int antall;
 	private T[] liste;
 
 	public TabellOrdnetListe() {
@@ -15,7 +17,7 @@ public class TabellOrdnetListe<T extends Comparable<T>> implements OrdnetListeAD
 	}
 
 	public TabellOrdnetListe(int startKapasitet) {
-		bak = 0;
+		antall = 0;
 		liste = (T[]) (new Comparable[startKapasitet]);
 	}
 
@@ -24,8 +26,11 @@ public class TabellOrdnetListe<T extends Comparable<T>> implements OrdnetListeAD
 		if (erTom())
 			throw new EmptyCollectionException("ordnet liste");
 
-		T resultat = null;
-		// ... Fyll ut
+		var sisteIndex = antall - 1;
+		T resultat = liste[sisteIndex];
+		liste[sisteIndex] = null;
+		antall -= 1;
+
 		return resultat;
 	}
 
@@ -34,8 +39,12 @@ public class TabellOrdnetListe<T extends Comparable<T>> implements OrdnetListeAD
 		if (erTom())
 			throw new EmptyCollectionException("ordnet liste");
 
-		T resultat = null;
-		// ... Fyll ut
+		T resultat = liste[0];
+
+		// Shifte hele arrayen mot venstre
+		System.arraycopy(liste, 1, liste, 0, antall);
+		antall -= 1;
+
 		return resultat;
 	}
 
@@ -53,26 +62,36 @@ public class TabellOrdnetListe<T extends Comparable<T>> implements OrdnetListeAD
 		if (erTom())
 			throw new EmptyCollectionException("ordnet liste");
 		
-		T resultat = null;
-		// ...Fyll ut
+		T resultat = liste[antall - 1];
 
 		return resultat;
 	}
 
 	@Override
 	public boolean erTom() {
-		return (bak == 0);
+		return (antall == 0);
 	}
 
 	@Override
 	public int antall() {
-		return bak;
+		return antall;
 	}
 
 	@Override
 	public void leggTil(T element) {
+		if (antall == liste.length) {
+			utvid();
+		}
 
-		// ...Fyll ut
+		liste[antall] = element;
+		antall += 1;
+	}
+
+	@Override
+	public void sorter() {
+		if (erTom()) return;
+
+		Arrays.sort(liste, 0, antall - 1);
 	}
 
 	@Override
@@ -82,21 +101,32 @@ public class TabellOrdnetListe<T extends Comparable<T>> implements OrdnetListeAD
 
 	@Override
 	public T fjern(T element) {
-		// ...Fyll ut
-		return element;
+		var index = finn(element);
+		if (index == IKKE_FUNNET) return null;
 
+		var resultat = liste[index];
+
+		// Shifte hele arrayen mot venstre, der hvor elementet skal bli slettet
+		System.arraycopy(liste, index + 1, liste, index, antall - index);
+		antall -= 1;
+
+		return resultat;
 	}
 
 	private int finn(T el) {
-		int i = 0, resultat = IKKE_FUNNET;
-		// ...Fyll ut
-		return resultat;
+		for (int i = 0; i < antall; i++) {
+			if (liste[i].equals(el)) {
+				return i;
+			}
+		}
+
+		return IKKE_FUNNET;
 	}
 
 	public String toString() {
 		String resultat = "";
 
-		for (int i = 0; i < bak; i++) {
+		for (int i = 0; i < antall; i++) {
 			resultat = resultat + liste[i].toString() + "\n";
 		}
 		return resultat;
