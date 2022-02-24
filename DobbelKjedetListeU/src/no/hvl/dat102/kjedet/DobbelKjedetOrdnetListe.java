@@ -6,15 +6,14 @@ import no.hvl.dat102.exceptions.EmptyCollectionException;
 public class DobbelKjedetOrdnetListe<T extends Comparable<T>> implements DobbelKjedetOrdnetListeADT<T> {
 	private DobbelNode<T> foerste;
 	private DobbelNode<T> siste;
-	private int antall;
+	private int antall = 0;
 
 	public DobbelKjedetOrdnetListe(T minVerdi, T maksVerdi) {
-		// Første node
-		//TODO
-		// Siste node
-		//TODO
-		// Kjeding
-		//TODO
+		foerste = new DobbelNode<T>(minVerdi);
+		siste = new DobbelNode<T>(maksVerdi);
+
+		foerste.setNeste(siste);
+		siste.setForrige(foerste);
 	}
 
 	@Override
@@ -30,7 +29,6 @@ public class DobbelKjedetOrdnetListe<T extends Comparable<T>> implements DobbelK
 		aktuell.getForrige().setNeste(nyNode);
 		aktuell.setForrige(nyNode);
 		antall++;
-
 	}
 
 	@Override
@@ -54,10 +52,22 @@ public class DobbelKjedetOrdnetListe<T extends Comparable<T>> implements DobbelK
 	 * Returnerer referansen til noden hvis el fins, ellers returneres
 	 * null-referansen
 	 */
-	private DobbelNode<T> finn(T el) {
-		return null;
-		//TODO
+	private DobbelNode<T> finn(T element) {
+		var aktuell = foerste.getNeste();
 
+		while (aktuell != siste) {
+			if (aktuell.getElement().equals(element)) {
+				return aktuell;
+			}
+
+			aktuell = aktuell.getNeste();
+		}
+
+		return null;
+	}
+
+	public boolean fins(T element) {
+		return finn(element) != null;
 	}
 
 	@Override
@@ -68,6 +78,10 @@ public class DobbelKjedetOrdnetListe<T extends Comparable<T>> implements DobbelK
 	@Override
 	public int antall() {
 		return antall;
+	}
+
+	public void visListe() {
+		System.out.println(this);
 	}
 
 	public String toString() {
