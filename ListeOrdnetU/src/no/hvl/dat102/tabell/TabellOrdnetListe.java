@@ -83,15 +83,27 @@ public class TabellOrdnetListe<T extends Comparable<T>> implements OrdnetListeAD
 			utvid();
 		}
 
+		if (erTom()) {
+			liste[0] = element;
+			antall = 1;
+			return;
+		}
+
+		// Hvis elementet må legges til midt i listen ett sted
+		for (int i = 0; i < antall; i++) {
+			if (element.compareTo(liste[i]) <= 0) {
+				System.arraycopy(liste, i, liste, i + 1, antall - i);
+
+				liste[i] = element;
+				antall++;
+
+				return;
+			}
+		}
+
+		// Hvis elementet skal legges til på slutten av listen
 		liste[antall] = element;
-		antall += 1;
-	}
-
-	@Override
-	public void sorter() {
-		if (erTom()) return;
-
-		Arrays.sort(liste, 0, antall - 1);
+		antall++;
 	}
 
 	@Override

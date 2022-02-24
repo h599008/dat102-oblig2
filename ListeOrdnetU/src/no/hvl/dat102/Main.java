@@ -36,13 +36,16 @@ public class Main {
             }
         } while (result == JOptionPane.OK_OPTION);
 
-        kjedet.sorter();
-        tabell.sorter();
-
         System.out.println("Kjedet Ordnet Liste:");
-        System.out.println(kjedet);
+        while (!kjedet.erTom()) {
+            var element = kjedet.fjernSiste();
+            System.out.println(element);
+        }
 
         System.out.println("Tabell Ordnet Liste:");
-        System.out.println(tabell);
+        while (!tabell.erTom()) {
+            var element = tabell.fjernSiste();
+            System.out.println(element);
+        }
     }
 }

@@ -117,34 +117,32 @@ public class KjedetOrdnetListe<T extends Comparable<T>> implements OrdnetListeAD
 		}
 
 		// Hvis listen har 1 eller flere elementer
-		siste.setNeste(nyNode);
-		siste = nyNode;
-		antall += 1;
-	}
+		LinearNode<T> aktuell = foerste;
+		LinearNode<T> forrige = null;
 
-	// Fra https://www.javatpoint.com/program-to-sort-the-elements-of-the-singly-linked-list
-	@Override
-	public void sorter() {
-		if (erTom()) return;
-
-		LinearNode<T> current = foerste, index = null;
-
-		while(current != null) {
-			// Node index will point to node next to current
-			index = current.getNeste();
-
-			while(index != null) {
-				// If current node's data is greater than index's node data, swap the data between them
-
-				if(current.getElement().compareTo(index.getElement()) > 0) {
-					var temp = current.getElement();
-					current.setElement(index.getElement());;
-					index.setElement(temp);
-				}
-				index = index.getNeste();
+		while (aktuell != null) {
+			if (element.compareTo(aktuell.getElement()) > 0) {
+				forrige = aktuell;
+				aktuell = aktuell.getNeste();
+			} else {
+				break;
 			}
-			current = current.getNeste();
 		}
+
+		if (forrige == null) {
+			nyNode.setNeste(foerste);
+			foerste = nyNode;
+		} else {
+			nyNode.setNeste(aktuell);
+			forrige.setNeste(nyNode);
+
+			if (forrige == siste) {
+				siste = nyNode;
+			}
+		}
+
+
+		antall += 1;
 	}
 
 	@Override
