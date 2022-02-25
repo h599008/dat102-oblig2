@@ -14,14 +14,16 @@ public class KlientDobbelKjedetListe {
 			liste.leggTil(ord[i]);
 
 		}
+		System.out.println("Listen inneholder \"m\": " + liste.fins("m"));
+
 		// Utskrift foran
 		System.out.println(liste);
 
 		// Utskrift bak
 		System.out.println(liste.tilStrengBaklengs());
-
 		// slette m
 		liste.fjern("m");
+		System.out.println("Listen inneholder \"m\": " + liste.fins("m"));
 
 		// Utskrift etter sletting
 		System.out.println(liste);

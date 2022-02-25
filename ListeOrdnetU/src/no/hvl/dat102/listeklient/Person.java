@@ -50,6 +50,19 @@ public class Person implements Comparable<Person> {
 
 	public int compareTo(Person denAndrePersonen) {
 		int resultat = 0;
+
+		if (foedselsaar > denAndrePersonen.foedselsaar) {
+			resultat = 1;
+		} else if (this.foedselsaar == denAndrePersonen.foedselsaar) {
+			resultat = this.etternavn.compareTo(denAndrePersonen.etternavn);
+
+			if (resultat == 0) {
+				resultat = this.fornavn.compareTo(denAndrePersonen.fornavn);
+			}
+		} else {
+			resultat = -1;
+		}
+
 		//... Fyll ut
 		//Kall på compareTo i Stringklassen
 		return resultat;
