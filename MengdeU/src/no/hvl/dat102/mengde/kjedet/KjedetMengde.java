@@ -163,7 +163,7 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 
 	@Override
 	public boolean erTom() {
-		return antall == 0;
+		return start == null;
 	}
 
 	@Override
@@ -254,5 +254,29 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 		start = nyNode;
 		antall++;
 	}
+	
+	public void push(T el) {
+		LinearNode<T> nynode = new LinearNode<T>(el);
+		nynode.setNeste(start);
+		start = nynode;
 
-}// class
+	}
+
+	public T pop() {
+		if (erTom())
+			throw new EmptyCollectionException("stabel");
+		T resultat = start.getElement();
+		start = start.getNeste();
+
+		return resultat;
+	}
+
+	public T peek() {
+		if (erTom())
+			throw new EmptyCollectionException("stabel");
+
+		return start.getElement();
+	}
+	
+	
+}
